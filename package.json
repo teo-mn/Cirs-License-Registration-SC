@@ -1,0 +1,24 @@
+{
+  "name": "license-registration-sc",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "npx hardhat test"
+  },
+  "author": "",
+  "license": "ISC",
+  "devDependencies": {
+    "@nomicfoundation/hardhat-toolbox": "^3.0.0",
+    "@types/chai": "^4.3.9",
+    "@types/sinon": "^10.0.20",
+    "chai": "^4.3.10",
+    "hardhat": "^2.18.3",
+    "mocha": "^10.2.0",
+    "sinon": "^17.0.0"
+  },
+  "dependencies": {
+    "@openzeppelin/contracts": "^5.0.0",
+    "dotenv": "^16.3.1"
+  }
+}
