@@ -11,7 +11,7 @@ contract KeyValue is IKeyValue, AccessControl, Pausable {
 
     bytes32 public constant ISSUER_ROLE = keccak256("ISSUER_ROLE");
     bytes32 public constant PAUSER_ROLE = keccak256("PAUSER_ROLE");
-    mapping(bytes => bytes) public data;
+    mapping(bytes => bytes) private data;
 
     constructor(address admin, string memory name) {
         _grantRole(DEFAULT_ADMIN_ROLE, admin);
