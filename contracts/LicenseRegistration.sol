@@ -4,11 +4,10 @@ pragma solidity ^0.8.20;
 import "@openzeppelin/contracts/access/AccessControl.sol";
 import "@openzeppelin/contracts/utils/Pausable.sol";
 import "./ILicenseRegistration.sol";
-import "./INameable.sol";
 import "./SharedStructs.sol";
 
 
-contract LicenseRegistration is ILicenseRegistration, INameable, AccessControl, Pausable {
+contract LicenseRegistration is ILicenseRegistration, AccessControl, Pausable {
     string private _name;
     bytes32 public constant ISSUER_ROLE = keccak256("ISSUER_ROLE");
     bytes32 public constant PAUSER_ROLE = keccak256("PAUSER_ROLE");
@@ -68,8 +67,8 @@ contract LicenseRegistration is ILicenseRegistration, INameable, AccessControl, 
     whenNotPaused onlyRole(ISSUER_ROLE) external returns (bool) {
         uint index = reqIndexMap[licenseID][requirementID];
         if (index > 0) {
+            require(keccak256(requirements[licenseID][index - 1]) == keccak256(requirementID));
             requirements[licenseID][index - 1] = bytes('');
-            require(keccak256(requirements[licenseID][index]) == keccak256(requirementID));
             reqIndexMap[licenseID][requirementID] = 0;
             emit LicenseRequirementRevoked(licenseID, requirementID, description);
             return true;
@@ -85,6 +84,14 @@ contract LicenseRegistration is ILicenseRegistration, INameable, AccessControl, 
     function getLicenseRequirements(bytes memory licenseID)
     external view returns (bytes[] memory) {
         return requirements[licenseID];
+    }
+
+    function pause() public onlyRole(PAUSER_ROLE) {
+        _pause();
+    }
+
+    function unpause() public onlyRole(PAUSER_ROLE) {
+        _unpause();
     }
 
 }

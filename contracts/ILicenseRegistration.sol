@@ -2,8 +2,9 @@
 pragma solidity ^0.8.20;
 
 import "./SharedStructs.sol";
+import "./INameable.sol";
 
-interface ILicenseRegistration {
+interface ILicenseRegistration is INameable {
     event LicenseRegistered(bytes indexed licenseID, bytes licenseName, bytes indexed ownerID, bytes ownerName, uint startDate, uint expireDate);
     event LicenseRevoked(bytes indexed licenseID, bytes description);
 
