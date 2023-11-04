@@ -12,4 +12,10 @@ library SharedStructs {
         bytes state;
         bytes additionalDataID;
     }
+    struct RequirementStructBase {
+        bytes requirementID;
+        bytes requirementName;
+        bytes state;
+        bytes additionalDataID;
+    }
 }
