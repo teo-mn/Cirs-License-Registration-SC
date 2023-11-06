@@ -8,6 +8,7 @@ async function main() {
       ethers.toUtf8Bytes("licenseID"),
       ethers.toUtf8Bytes("requirementID"),
       ethers.toUtf8Bytes("evidenceID"),
+      ethers.toUtf8Bytes("additionalData"),
   );
   console.log(data);
 }
