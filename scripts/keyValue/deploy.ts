@@ -5,7 +5,7 @@ async function main() {
 
   await instance.waitForDeployment();
 
-  console.log(`KeyValue contract deployed to ${instance.target}, ${await instance.name()}`);
+  console.log(`KeyValue contract deployed to ${instance.target} , ${await instance.name()}`);
 }
 
 // We recommend this pattern to be able to use async/await everywhere

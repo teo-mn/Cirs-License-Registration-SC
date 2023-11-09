@@ -2,7 +2,7 @@ import {ethers} from "hardhat";
 
 async function main() {
   const LicenseRegistration = await ethers.getContractFactory("LicenseRegistration");
-  const instance = LicenseRegistration.attach('0x522Be02bAd15aa95a42A1e79372ef1d1C26857fE');
+  const instance = LicenseRegistration.attach('0x6c4d4A9CCf42Adb52336872c8AD719dCA557763D');
   // @ts-ignore
   const data = await instance.revoke(
       ethers.toUtf8Bytes("licenseID"),

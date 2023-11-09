@@ -4,12 +4,15 @@ async function main() {
   const LicenseRegistration = await ethers.getContractFactory("LicenseRegistration");
   const RequirementRegistration = await ethers.getContractFactory("LicenseRequirementRegistration");
   const KeyValue = await ethers.getContractFactory("KeyValue");
-  const instance1 = LicenseRegistration.attach('0x522Be02bAd15aa95a42A1e79372ef1d1C26857fE');
-  const instance2 = RequirementRegistration.attach('0x8d5E6b1555538Ba046BEC03dC716aDd960a6508c');
-  const instance3 = KeyValue.attach('0xc3FbbE384009a3Db45AFFDe08eBb6DD278bccde1');
+  const instance1 = LicenseRegistration.attach('0x6c4d4A9CCf42Adb52336872c8AD719dCA557763D');
+  const instance2 = RequirementRegistration.attach('0xff68A90c6A3D7F9FCdBEAe043167fBB4171d5e64');
+  const instance3 = KeyValue.attach('0xA76D11E077FE691Cf9e27639c1AFf96a15B3D9EE');
 
   // @ts-ignore
   console.log(await instance1.name())
+  // @ts-ignore
+  const data = await instance1.grantRole(await instance1.ISSUER_ROLE(), '0xff68A90c6A3D7F9FCdBEAe043167fBB4171d5e64');
+  console.log(data);
   // @ts-ignore
   const data1 = await instance1.grantRole(await instance1.ISSUER_ROLE(), '0x85F5c799e1edEe7Fc042638D5c00da3a5cC8c7a4');
   console.log(data1);

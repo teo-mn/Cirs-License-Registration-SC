@@ -1,11 +1,11 @@
 import { ethers } from "hardhat";
 
 async function main() {
-  const instance = await ethers.deployContract("LicenseRequirementRegistration", [process.env.ADMIN_ADDRESS, 'TestName', '0x1cd8F973172460B1BFdBf76eb5430Dc00a4866E4']);
+  const instance = await ethers.deployContract("LicenseRequirementRegistration", [process.env.ADMIN_ADDRESS, 'TestName', '0x6c4d4A9CCf42Adb52336872c8AD719dCA557763D']);
 
   await instance.waitForDeployment();
 
-  console.log(`LicenseRequirementRegistration contract deployed to ${instance.target}, ${await instance.name()}`);
+  console.log(`LicenseRequirementRegistration contract deployed to ${instance.target} , ${await instance.name()}`);
 }
 
 // We recommend this pattern to be able to use async/await everywhere

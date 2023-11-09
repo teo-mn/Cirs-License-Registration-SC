@@ -288,7 +288,7 @@ describe("Requirement Registration", function () {
               ethers.toUtf8Bytes("evidenceID2"),
               ethers.toUtf8Bytes("additionalData"))
       await expect(instance.revokeEvidence(ethers.toUtf8Bytes("licenseID"), ethers.toUtf8Bytes("requirementID"), ethers.toUtf8Bytes("evidenceID2"), ethers.toUtf8Bytes("additionalData")))
-          .to.emit(instance, "EvidenceRegistered")
+          .to.emit(instance, "EvidenceRevoked")
           .withArgs(ethers.toUtf8Bytes("licenseID"),
               ethers.toUtf8Bytes("requirementID"),
               ethers.toUtf8Bytes("evidenceID2"),

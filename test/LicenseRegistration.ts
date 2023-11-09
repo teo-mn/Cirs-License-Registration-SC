@@ -443,7 +443,7 @@ describe("License Registration", function () {
           )
 
       await expect(instance.revokeRequirement(ethers.toUtf8Bytes("licenseID"), ethers.toUtf8Bytes("requirementID"), ethers.toUtf8Bytes("additionalData")))
-          .to.emit(instance, "LicenseRequirementRegistered").withArgs(
+          .to.emit(instance, "LicenseRequirementRevoked").withArgs(
               ethers.toUtf8Bytes("licenseID"),
               ethers.toUtf8Bytes("requirementID"),
               ethers.toUtf8Bytes("additionalData")

@@ -5,11 +5,11 @@ import "./SharedStructs.sol";
 import "./INameable.sol";
 
 interface ILicenseRegistration is INameable {
-    event LicenseRegistered(bytes indexed licenseID, bytes licenseName, bytes indexed ownerID, bytes ownerName, uint startDate, uint endDate);
-    event LicenseRevoked(bytes indexed licenseID, bytes additionalData);
+    event LicenseRegistered(bytes licenseID, bytes licenseName, bytes ownerID, bytes ownerName, uint startDate, uint endDate);
+    event LicenseRevoked(bytes licenseID, bytes additionalData);
 
-    event LicenseRequirementRegistered(bytes indexed licenseID, bytes indexed requirementID);
-    event LicenseRequirementRevoked(bytes indexed licenseID, bytes indexed requirementID, bytes additionalData);
+    event LicenseRequirementRegistered(bytes licenseID, bytes requirementID);
+    event LicenseRequirementRevoked(bytes licenseID, bytes requirementID, bytes additionalData);
 
     function register(bytes memory licenseID, bytes memory licenseName, bytes memory ownerID, bytes memory ownerName, uint startDate, uint endDate, bytes memory additionalData) external returns (bool);
     function revoke(bytes memory licenseID, bytes memory additionalData) external returns (bool);
