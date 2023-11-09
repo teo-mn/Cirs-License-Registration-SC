@@ -2,7 +2,7 @@ import { ethers } from "hardhat";
 
 async function main() {
   const KeyValue = await ethers.getContractFactory("KeyValue");
-  const instance = KeyValue.attach('0x8806d258F92f17A0117dF14493153e74ebD15588');
+  const instance = KeyValue.attach('0xc3FbbE384009a3Db45AFFDe08eBb6DD278bccde1');
   // @ts-ignore
   const res = await instance.setData(ethers.toUtf8Bytes("key"), ethers.toUtf8Bytes("value"));
   console.log(await res.wait());
