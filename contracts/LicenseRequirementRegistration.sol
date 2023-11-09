@@ -32,45 +32,45 @@ contract LicenseRequirementRegistration is ILicenseRequirementRegistration, Acce
         return _name;
     }
 
-    function register(bytes memory licenseID, bytes memory requirementID, bytes memory requirementName, bytes memory additionalDataID)
+    function register(bytes memory licenseID, bytes memory requirementID, bytes memory requirementName, bytes memory additionalData)
     whenNotPaused onlyRole(ISSUER_ROLE) external returns (bool) {
         license.registerRequirement(licenseID, requirementID);
         SharedStructs.RequirementStructBase memory req = data[licenseID][requirementID];
         req.requirementID = requirementID;
         req.requirementName = requirementName;
-        req.additionalDataID = additionalDataID;
+        req.additionalData = additionalData;
         req.state = bytes("REGISTERED");
         data[licenseID][requirementID] = req;
         emit LicenseRequirementRegistered(licenseID, requirementID, requirementName);
         return true;
     }
 
-    function revoke(bytes memory licenseID, bytes memory requirementID, bytes memory description)
+    function revoke(bytes memory licenseID, bytes memory requirementID, bytes memory additionalData)
     whenNotPaused onlyRole(ISSUER_ROLE) external returns (bool) {
-        license.revokeRequirement(licenseID, requirementID, description);
+        license.revokeRequirement(licenseID, requirementID, additionalData);
         SharedStructs.RequirementStructBase memory req = data[licenseID][requirementID];
         req.state = bytes("REVOKED");
         data[licenseID][requirementID] = req;
-        emit LicenseRequirementRevoked(licenseID, requirementID, description);
+        emit LicenseRequirementRevoked(licenseID, requirementID, additionalData);
         return true;
     }
 
-    function registerEvidence(bytes memory licenseID, bytes memory requirementID, bytes memory evidenceID, bytes memory additionalDataID)
+    function registerEvidence(bytes memory licenseID, bytes memory requirementID, bytes memory evidenceID, bytes memory additionalData)
     whenNotPaused onlyRole(ISSUER_ROLE) external returns (bool) {
         evidences[licenseID][requirementID].push(evidenceID);
         evidenceIndexMap[licenseID][requirementID][evidenceID] = evidences[licenseID][requirementID].length;
-        emit EvidenceRegistered(licenseID, requirementID, evidenceID, additionalDataID);
+        emit EvidenceRegistered(licenseID, requirementID, evidenceID, additionalData);
         return true;
     }
 
-    function revokeEvidence(bytes memory licenseID, bytes memory requirementID, bytes memory evidenceID, bytes memory description)
+    function revokeEvidence(bytes memory licenseID, bytes memory requirementID, bytes memory evidenceID, bytes memory additionalData)
     whenNotPaused onlyRole(ISSUER_ROLE) external returns (bool) {
         uint index = evidenceIndexMap[licenseID][requirementID][evidenceID];
         if (index > 0) {
             require(keccak256(evidences[licenseID][requirementID][index - 1]) == keccak256(evidenceID));
             evidences[licenseID][requirementID][index - 1] = bytes('');
             evidenceIndexMap[licenseID][requirementID][evidenceID] = 0;
-            emit EvidenceRevoked(licenseID, requirementID, evidenceID, description);
+            emit EvidenceRevoked(licenseID, requirementID, evidenceID, additionalData);
             return true;
         }
         return false;

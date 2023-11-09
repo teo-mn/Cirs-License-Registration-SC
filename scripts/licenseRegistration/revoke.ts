@@ -6,7 +6,7 @@ async function main() {
   // @ts-ignore
   const data = await instance.revoke(
       ethers.toUtf8Bytes("licenseID"),
-      ethers.toUtf8Bytes("description")
+      ethers.toUtf8Bytes("additionalDataID")
   );
   console.log(data);
 }

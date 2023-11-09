@@ -10,12 +10,12 @@ library SharedStructs {
         uint startDate;
         uint endDate;
         bytes state;
-        bytes additionalDataID;
+        bytes additionalData;
     }
     struct RequirementStructBase {
         bytes requirementID;
         bytes requirementName;
         bytes state;
-        bytes additionalDataID;
+        bytes additionalData;
     }
 }

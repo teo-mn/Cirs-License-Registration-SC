@@ -27,7 +27,7 @@ contract LicenseRegistration is ILicenseRegistration, AccessControl, Pausable {
         return _name;
     }
 
-    function register(bytes memory licenseID, bytes memory licenseName, bytes memory ownerID, bytes memory ownerName, uint startDate, uint endDate, bytes memory additionalDataID)
+    function register(bytes memory licenseID, bytes memory licenseName, bytes memory ownerID, bytes memory ownerName, uint startDate, uint endDate, bytes memory additionalData)
     whenNotPaused onlyRole(ISSUER_ROLE) external returns (bool) {
         // TODO validate
         SharedStructs.LicenseStructBase memory license = data[licenseID];
@@ -37,7 +37,7 @@ contract LicenseRegistration is ILicenseRegistration, AccessControl, Pausable {
         license.ownerName = ownerName;
         license.startDate = startDate;
         license.endDate = endDate;
-        license.additionalDataID = additionalDataID;
+        license.additionalData = additionalData;
         license.state = bytes("REGISTERED");
         data[licenseID] = license;
 
@@ -45,13 +45,13 @@ contract LicenseRegistration is ILicenseRegistration, AccessControl, Pausable {
         return true;
     }
 
-    function revoke(bytes memory licenseID, bytes memory description)
+    function revoke(bytes memory licenseID, bytes memory additionalData)
     whenNotPaused onlyRole(ISSUER_ROLE) external returns (bool) {
         // TODO validate
         SharedStructs.LicenseStructBase memory license = data[licenseID];
         license.state = bytes("REVOKED");
         data[licenseID] = license;
-        emit LicenseRevoked(licenseID, description);
+        emit LicenseRevoked(licenseID, additionalData);
         return true;
     }
 
@@ -63,14 +63,14 @@ contract LicenseRegistration is ILicenseRegistration, AccessControl, Pausable {
         return true;
     }
 
-    function revokeRequirement(bytes memory licenseID, bytes memory requirementID, bytes memory description)
+    function revokeRequirement(bytes memory licenseID, bytes memory requirementID, bytes memory additionalData)
     whenNotPaused onlyRole(ISSUER_ROLE) external returns (bool) {
         uint index = reqIndexMap[licenseID][requirementID];
         if (index > 0) {
             require(keccak256(requirements[licenseID][index - 1]) == keccak256(requirementID));
             requirements[licenseID][index - 1] = bytes('');
             reqIndexMap[licenseID][requirementID] = 0;
-            emit LicenseRequirementRevoked(licenseID, requirementID, description);
+            emit LicenseRequirementRevoked(licenseID, requirementID, additionalData);
             return true;
         }
         return false;

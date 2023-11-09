@@ -9,12 +9,12 @@ interface ILicenseRegistration is INameable {
     event LicenseRevoked(bytes indexed licenseID, bytes description);
 
     event LicenseRequirementRegistered(bytes indexed licenseID, bytes indexed requirementID);
-    event LicenseRequirementRevoked(bytes indexed licenseID, bytes indexed requirementID, bytes description);
+    event LicenseRequirementRevoked(bytes indexed licenseID, bytes indexed requirementID, bytes additionalData);
 
-    function register(bytes memory licenseID, bytes memory licenseName, bytes memory ownerID, bytes memory ownerName, uint startDate, uint endDate, bytes memory additionalDataID) external returns (bool);
-    function revoke(bytes memory licenseID, bytes memory description) external returns (bool);
+    function register(bytes memory licenseID, bytes memory licenseName, bytes memory ownerID, bytes memory ownerName, uint startDate, uint endDate, bytes memory additionalData) external returns (bool);
+    function revoke(bytes memory licenseID, bytes memory additionalData) external returns (bool);
     function registerRequirement(bytes memory licenseID, bytes memory requirementID) external returns (bool);
-    function revokeRequirement(bytes memory licenseID, bytes memory requirementID, bytes memory description) external returns (bool);
+    function revokeRequirement(bytes memory licenseID, bytes memory requirementID, bytes memory additionalData) external returns (bool);
 
     function getLicense(bytes memory licenseID) external view returns (SharedStructs.LicenseStructBase memory);
     function getLicenseRequirements(bytes memory licenseID) external view returns (bytes[] memory);
