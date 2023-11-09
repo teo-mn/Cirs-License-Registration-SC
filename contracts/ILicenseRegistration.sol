@@ -5,7 +5,7 @@ import "./SharedStructs.sol";
 import "./INameable.sol";
 
 interface ILicenseRegistration is INameable {
-    event LicenseRegistered(bytes indexed licenseID, bytes licenseName, bytes indexed ownerID, bytes ownerName, uint startDate, uint expireDate);
+    event LicenseRegistered(bytes indexed licenseID, bytes licenseName, bytes indexed ownerID, bytes ownerName, uint startDate, uint endDate);
     event LicenseRevoked(bytes indexed licenseID, bytes additionalData);
 
     event LicenseRequirementRegistered(bytes indexed licenseID, bytes indexed requirementID);
