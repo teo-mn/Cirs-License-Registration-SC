@@ -4,26 +4,28 @@ async function main() {
   const LicenseRegistration = await ethers.getContractFactory("LicenseRegistration");
   const RequirementRegistration = await ethers.getContractFactory("LicenseRequirementRegistration");
   const KeyValue = await ethers.getContractFactory("KeyValue");
-  const instance1 = LicenseRegistration.attach('0x6c4d4A9CCf42Adb52336872c8AD719dCA557763D');
-  const instance2 = RequirementRegistration.attach('0xff68A90c6A3D7F9FCdBEAe043167fBB4171d5e64');
-  const instance3 = KeyValue.attach('0xA76D11E077FE691Cf9e27639c1AFf96a15B3D9EE');
+  const instance1 = LicenseRegistration.attach(process.env.LICENSE_ADDRESS);
+  const instance2 = RequirementRegistration.attach(process.env.REQUIREMENT_ADDRESS);
+  const instance3 = KeyValue.attach(process.env.KV_ADDRESS);
+
+  const adminAddress = '0x85F5c799e1edEe7Fc042638D5c00da3a5cC8c7a4';
 
   // @ts-ignore
   console.log(await instance1.name())
   // @ts-ignore
-  const data = await instance1.grantRole(await instance1.ISSUER_ROLE(), '0xff68A90c6A3D7F9FCdBEAe043167fBB4171d5e64');
+  const data = await instance1.grantRole(await instance1.ISSUER_ROLE(), process.env.REQUIREMENT_ADDRESS);
   console.log(data);
   // @ts-ignore
-  const data1 = await instance1.grantRole(await instance1.ISSUER_ROLE(), '0x85F5c799e1edEe7Fc042638D5c00da3a5cC8c7a4');
+  const data1 = await instance1.grantRole(await instance1.ISSUER_ROLE(), adminAddress);
   console.log(data1);
   // @ts-ignore
-  const data2 = await instance2.grantRole(await instance2.ISSUER_ROLE(), '0x85F5c799e1edEe7Fc042638D5c00da3a5cC8c7a4');
+  const data2 = await instance2.grantRole(await instance2.ISSUER_ROLE(), adminAddress);
   console.log(data2);
   // @ts-ignore
-  const data3 = await instance3.grantRole(await instance3.ISSUER_ROLE(), '0x85F5c799e1edEe7Fc042638D5c00da3a5cC8c7a4');
+  const data3 = await instance3.grantRole(await instance3.ISSUER_ROLE(), adminAddress);
   console.log(data3);
   // @ts-ignore
-  const res = await instance1.hasRole(await instance1.ISSUER_ROLE(), '0x85F5c799e1edEe7Fc042638D5c00da3a5cC8c7a4')
+  const res = await instance1.hasRole(await instance1.ISSUER_ROLE(), adminAddress)
   console.log(res);
 }
 
