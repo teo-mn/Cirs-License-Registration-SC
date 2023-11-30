@@ -57,9 +57,11 @@ contract LicenseRegistration is ILicenseRegistration, AccessControl, Pausable {
 
     function registerRequirement(bytes memory licenseID, bytes memory requirementID)
     whenNotPaused onlyRole(ISSUER_ROLE) external returns (bool) {
-        requirements[licenseID].push(requirementID);
-        reqIndexMap[licenseID][requirementID] = requirements[licenseID].length;
-        emit LicenseRequirementRegistered(licenseID, requirementID);
+        if (reqIndexMap[licenseID][requirementID] == 0) {
+            requirements[licenseID].push(requirementID);
+            reqIndexMap[licenseID][requirementID] = requirements[licenseID].length;
+            emit LicenseRequirementRegistered(licenseID, requirementID);
+        }
         return true;
     }
 

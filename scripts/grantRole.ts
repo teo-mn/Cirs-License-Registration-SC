@@ -4,8 +4,8 @@ async function main() {
   const LicenseRegistration = await ethers.getContractFactory("LicenseRegistration");
   const RequirementRegistration = await ethers.getContractFactory("LicenseRequirementRegistration");
   const KeyValue = await ethers.getContractFactory("KeyValue");
-  const instance1 = LicenseRegistration.attach(process.env.LICENSE_ADDRESS);
-  const instance2 = RequirementRegistration.attach(process.env.REQUIREMENT_ADDRESS);
+  const instance1 = LicenseRegistration.attach(process.env.LICENSE_ADDRESS as string);
+  const instance2 = RequirementRegistration.attach(process.env.REQUIREMENT_ADDRESS as string);
   const instance3 = KeyValue.attach(process.env.KV_ADDRESS);
 
   const adminAddress = '0x85F5c799e1edEe7Fc042638D5c00da3a5cC8c7a4';

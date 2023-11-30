@@ -57,9 +57,11 @@ contract LicenseRequirementRegistration is ILicenseRequirementRegistration, Acce
 
     function registerEvidence(bytes memory licenseID, bytes memory requirementID, bytes memory evidenceID, bytes memory additionalData)
     whenNotPaused onlyRole(ISSUER_ROLE) external returns (bool) {
-        evidences[licenseID][requirementID].push(evidenceID);
-        evidenceIndexMap[licenseID][requirementID][evidenceID] = evidences[licenseID][requirementID].length;
-        emit EvidenceRegistered(licenseID, requirementID, evidenceID, additionalData);
+        if (evidenceIndexMap[licenseID][requirementID][evidenceID] == 0) {
+            evidences[licenseID][requirementID].push(evidenceID);
+            evidenceIndexMap[licenseID][requirementID][evidenceID] = evidences[licenseID][requirementID].length;
+            emit EvidenceRegistered(licenseID, requirementID, evidenceID, additionalData);
+        }
         return true;
     }
 

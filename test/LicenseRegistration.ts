@@ -235,6 +235,31 @@ describe("License Registration", function () {
       const x = await instance.getLicenseRequirements(ethers.toUtf8Bytes("licenseID"));
       expect([...x]).to.have.all.members(items);
     })
+
+    it("registered data should be match same requirementID should not be duplicated", async function () {
+      const {instance} = await loadFixture(deploy);
+      await expect(instance.register(ethers.toUtf8Bytes("licenseID"),
+          ethers.toUtf8Bytes("licenseName"),
+          ethers.toUtf8Bytes("ownerID"),
+          ethers.toUtf8Bytes("ownerName"),
+          0,
+          1,
+          ethers.toUtf8Bytes("additionalData"),
+      )).not.to.be.reverted;
+      const items = [];
+      for (let i = 0; i < 10; i++) {
+        items.push(ethers.hexlify(ethers.toUtf8Bytes(`requirementID${i}`)));
+        await expect(instance.registerRequirement(ethers.toUtf8Bytes("licenseID"), ethers.toUtf8Bytes(`requirementID${i}`))).not.to.be.reverted;
+      }
+      const x = await instance.getLicenseRequirements(ethers.toUtf8Bytes("licenseID"));
+      expect([...x]).to.have.all.members(items);
+
+      for (let i = 0; i < 10; i++) {
+        await expect(instance.registerRequirement(ethers.toUtf8Bytes("licenseID"), ethers.toUtf8Bytes(`requirementID${i}`))).not.to.be.reverted;
+      }
+      const x2 = await instance.getLicenseRequirements(ethers.toUtf8Bytes("licenseID"));
+      expect([...x2]).to.have.all.members(items);
+    })
   });
   describe("revoke requirements", function () {
     it("revoke without error", async function () {
@@ -418,6 +443,31 @@ describe("License Registration", function () {
               ethers.toUtf8Bytes("licenseID"),
               ethers.toUtf8Bytes("requirementID")
           )
+    })
+    it("register requirement same requirement should not be emitted again", async function () {
+      const {instance} = await loadFixture(deploy);
+      await expect(instance.register(ethers.toUtf8Bytes("licenseID"),
+          ethers.toUtf8Bytes("licenseName"),
+          ethers.toUtf8Bytes("ownerID"),
+          ethers.toUtf8Bytes("ownerName"),
+          0,
+          1,
+          ethers.toUtf8Bytes("additionalData"),
+      )).to.emit(instance, "LicenseRegistered")
+          .withArgs(
+              ethers.toUtf8Bytes("licenseID"),
+              ethers.toUtf8Bytes("licenseName"),
+              ethers.toUtf8Bytes("ownerID"),
+              ethers.toUtf8Bytes("ownerName"),
+              0,
+              1);
+      await expect(instance.registerRequirement(ethers.toUtf8Bytes("licenseID"), ethers.toUtf8Bytes("requirementID")))
+          .to.emit(instance, "LicenseRequirementRegistered").withArgs(
+              ethers.toUtf8Bytes("licenseID"),
+              ethers.toUtf8Bytes("requirementID")
+          )
+      await expect(instance.registerRequirement(ethers.toUtf8Bytes("licenseID"), ethers.toUtf8Bytes("requirementID")))
+          .not.to.emit(instance, "LicenseRequirementRegistered");
     })
     it("revoke requirement", async function () {
       const {instance} = await loadFixture(deploy);

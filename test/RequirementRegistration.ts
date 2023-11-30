@@ -136,6 +136,29 @@ describe("Requirement Registration", function () {
       const x = await instance.getEvidences(ethers.toUtf8Bytes("licenseID"), ethers.toUtf8Bytes("requirementID"));
       expect([...x]).to.have.all.members([ethers.hexlify(ethers.toUtf8Bytes("evidenceID"))]);
     })
+    it("registered evidence should be match same evidence twice", async function () {
+      const {instance} = await loadFixture(deploy);
+      await expect(instance.register(ethers.toUtf8Bytes("licenseID"),
+          ethers.toUtf8Bytes("requirementID"),
+          ethers.toUtf8Bytes("requirementName"),
+          ethers.toUtf8Bytes("additionalData"),
+      )).not.to.be.reverted;
+
+      const x2 = await instance.getEvidences(ethers.toUtf8Bytes("licenseID"), ethers.toUtf8Bytes("requirementID"));
+      expect([...x2]).to.have.all.members([]);
+      await expect(instance.registerEvidence(ethers.toUtf8Bytes("licenseID"), ethers.toUtf8Bytes("requirementID"), ethers.toUtf8Bytes("evidenceID"), ethers.toUtf8Bytes("additionalData"))).not.to.be.reverted;
+
+      const x = await instance.getEvidences(ethers.toUtf8Bytes("licenseID"), ethers.toUtf8Bytes("requirementID"));
+      expect([...x]).to.have.all.members([ethers.hexlify(ethers.toUtf8Bytes("evidenceID"))]);
+
+      await expect(instance.registerEvidence(ethers.toUtf8Bytes("licenseID"), ethers.toUtf8Bytes("requirementID"), ethers.toUtf8Bytes("evidenceID"), ethers.toUtf8Bytes("additionalData"))).not.to.be.reverted;
+      const x3 = await instance.getEvidences(ethers.toUtf8Bytes("licenseID"), ethers.toUtf8Bytes("requirementID"));
+      expect([...x3]).to.have.all.members([ethers.hexlify(ethers.toUtf8Bytes("evidenceID"))]);
+
+      await expect(instance.registerEvidence(ethers.toUtf8Bytes("licenseID"), ethers.toUtf8Bytes("requirementID"), ethers.toUtf8Bytes("evidenceID2"), ethers.toUtf8Bytes("additionalData"))).not.to.be.reverted;
+      const x4 = await instance.getEvidences(ethers.toUtf8Bytes("licenseID"), ethers.toUtf8Bytes("requirementID"));
+      expect([...x4]).to.have.all.members([ethers.hexlify(ethers.toUtf8Bytes("evidenceID")), ethers.hexlify(ethers.toUtf8Bytes("evidenceID2"))]);
+    })
   });
   describe("revoke evidence", function () {
 
@@ -273,6 +296,21 @@ describe("Requirement Registration", function () {
               ethers.toUtf8Bytes("requirementID"),
               ethers.toUtf8Bytes("evidenceID2"),
               ethers.toUtf8Bytes("additionalData"))
+    })
+    it("register same evidence twice", async function () {
+      const {instance} = await loadFixture(deploy);
+      await expect(instance.register(ethers.toUtf8Bytes("licenseID"),
+          ethers.toUtf8Bytes("requirementID"),
+          ethers.toUtf8Bytes("requirementName"),
+          ethers.toUtf8Bytes("additionalData"),
+      )).to.emit(instance, "LicenseRequirementRegistered");
+      await expect(instance.registerEvidence(ethers.toUtf8Bytes("licenseID"), ethers.toUtf8Bytes("requirementID"), ethers.toUtf8Bytes("evidenceID2"), ethers.toUtf8Bytes("additionalData")))
+          .to.emit(instance, "EvidenceRegistered").withArgs(ethers.toUtf8Bytes("licenseID"),
+              ethers.toUtf8Bytes("requirementID"),
+              ethers.toUtf8Bytes("evidenceID2"),
+              ethers.toUtf8Bytes("additionalData"))
+      await expect(instance.registerEvidence(ethers.toUtf8Bytes("licenseID"), ethers.toUtf8Bytes("requirementID"), ethers.toUtf8Bytes("evidenceID2"), ethers.toUtf8Bytes("additionalData")))
+          .to.not.emit(instance, "EvidenceRegistered");
     })
     it("revoke evidence", async function () {
       const {instance} = await loadFixture(deploy);
