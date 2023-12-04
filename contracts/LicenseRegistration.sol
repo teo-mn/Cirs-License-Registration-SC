@@ -41,7 +41,7 @@ contract LicenseRegistration is ILicenseRegistration, AccessControl, Pausable {
         license.state = bytes("REGISTERED");
         data[licenseID] = license;
 
-        emit LicenseRegistered(licenseID, licenseName, ownerID, ownerName, startDate, endDate);
+        emit LicenseRegistered(licenseID, licenseName, ownerID, ownerName, startDate, endDate, additionalData);
         return true;
     }
 
@@ -55,12 +55,12 @@ contract LicenseRegistration is ILicenseRegistration, AccessControl, Pausable {
         return true;
     }
 
-    function registerRequirement(bytes memory licenseID, bytes memory requirementID)
+    function registerRequirement(bytes memory licenseID, bytes memory requirementID, bytes memory additionalData)
     whenNotPaused onlyRole(ISSUER_ROLE) external returns (bool) {
         if (reqIndexMap[licenseID][requirementID] == 0) {
             requirements[licenseID].push(requirementID);
             reqIndexMap[licenseID][requirementID] = requirements[licenseID].length;
-            emit LicenseRequirementRegistered(licenseID, requirementID);
+            emit LicenseRequirementRegistered(licenseID, requirementID, additionalData);
         }
         return true;
     }

@@ -5,7 +5,7 @@ async function main() {
   const instance = LicenseProductRegistration.attach(process.env.PRODUCT_ADDRESS || '');
   // @ts-ignore
   const data = await instance.register(
-      ethers.toUtf8Bytes("Барилгын тусгай зөвшөөрөл"),
+      ethers.toUtf8Bytes("Барилгын тусгай зөвшөөрөл **ШИНЭ"),
       process.env.LICENSE_ADDRESS,
       process.env.REQUIREMENT_ADDRESS,
       process.env.KV_ADDRESS

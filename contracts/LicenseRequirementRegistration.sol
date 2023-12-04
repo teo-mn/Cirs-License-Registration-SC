@@ -34,14 +34,14 @@ contract LicenseRequirementRegistration is ILicenseRequirementRegistration, Acce
 
     function register(bytes memory licenseID, bytes memory requirementID, bytes memory requirementName, bytes memory additionalData)
     whenNotPaused onlyRole(ISSUER_ROLE) external returns (bool) {
-        license.registerRequirement(licenseID, requirementID);
+        license.registerRequirement(licenseID, requirementID, additionalData);
         SharedStructs.RequirementStructBase memory req = data[licenseID][requirementID];
         req.requirementID = requirementID;
         req.requirementName = requirementName;
         req.additionalData = additionalData;
         req.state = bytes("REGISTERED");
         data[licenseID][requirementID] = req;
-        emit LicenseRequirementRegistered(licenseID, requirementID, requirementName);
+        emit LicenseRequirementRegistered(licenseID, requirementID, requirementName, additionalData);
         return true;
     }
 

@@ -1,8 +1,5 @@
 import { ethers } from "hardhat";
-import {productRegistration} from "./productRegistration/deploy";
-import {keyValue} from "./keyValue/deploy";
-import {requirementRegistration} from "./requirementRegistration/deploy";
-import {licenseRegistration} from "./licenseRegistration/deploy";
+import {keyValue, licenseRegistration, productRegistration, requirementRegistration} from "./utils";
 
 async function main() {
   const pr = await productRegistration();

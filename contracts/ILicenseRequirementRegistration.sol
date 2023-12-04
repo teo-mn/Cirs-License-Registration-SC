@@ -3,7 +3,7 @@ pragma solidity ^0.8.20;
 import "./SharedStructs.sol";
 
 interface ILicenseRequirementRegistration {
-    event LicenseRequirementRegistered(bytes licenseID, bytes requirementID, bytes requirementName);
+    event LicenseRequirementRegistered(bytes licenseID, bytes requirementID, bytes requirementName, bytes additionalData);
     event LicenseRequirementRevoked(bytes licenseID, bytes requirementID, bytes additionalData);
     event EvidenceRegistered(bytes licenseID, bytes requirementID, bytes evidenceID, bytes additionalData);
     event EvidenceRevoked(bytes licenseID, bytes requirementID, bytes evidenceID, bytes additionalData);

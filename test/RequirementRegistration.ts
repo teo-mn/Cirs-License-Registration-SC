@@ -261,7 +261,8 @@ describe("Requirement Registration", function () {
           .withArgs(
               ethers.toUtf8Bytes("licenseID"),
               ethers.toUtf8Bytes("requirementID"),
-              ethers.toUtf8Bytes("requirementName"));
+              ethers.toUtf8Bytes("requirementName"),
+              ethers.toUtf8Bytes("additionalData"));
     })
     it("revoke", async function () {
       const {instance} = await loadFixture(deploy);
@@ -273,7 +274,8 @@ describe("Requirement Registration", function () {
           .withArgs(
               ethers.toUtf8Bytes("licenseID"),
               ethers.toUtf8Bytes("requirementID"),
-              ethers.toUtf8Bytes("requirementName"));
+              ethers.toUtf8Bytes("requirementName"),
+              ethers.toUtf8Bytes("additionalData"));
 
       await expect(instance.revoke(ethers.toUtf8Bytes("licenseID"),
           ethers.toUtf8Bytes("requirementID"),
