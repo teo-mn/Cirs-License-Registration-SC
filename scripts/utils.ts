@@ -10,7 +10,7 @@ export async function productRegistration() {
 }
 
 export async function keyValue() {
-  const instance = await ethers.deployContract("KeyValue", [process.env.ADMIN_ADDRESS, 'TestName']);
+  const instance = await ethers.deployContract("KeyValue", [process.env.ADMIN_ADDRESS, 'KV']);
 
   await instance.waitForDeployment();
 
@@ -20,7 +20,7 @@ export async function keyValue() {
 
 
 export async function licenseRegistration() {
-  const instance = await ethers.deployContract("LicenseRegistration", [process.env.ADMIN_ADDRESS, 'TestName']);
+  const instance = await ethers.deployContract("LicenseRegistration", [process.env.ADMIN_ADDRESS, 'License']);
 
   await instance.waitForDeployment();
 
@@ -29,7 +29,7 @@ export async function licenseRegistration() {
 }
 
 export async function requirementRegistration(license_address = process.env.LICENSE_ADDRESS) {
-  const instance = await ethers.deployContract("LicenseRequirementRegistration", [process.env.ADMIN_ADDRESS, 'TestName', license_address]);
+  const instance = await ethers.deployContract("LicenseRequirementRegistration", [process.env.ADMIN_ADDRESS, 'Requirement', license_address]);
 
   await instance.waitForDeployment();
 
