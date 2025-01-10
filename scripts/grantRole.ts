@@ -8,7 +8,7 @@ async function main() {
   const instance2 = RequirementRegistration.attach(process.env.REQUIREMENT_ADDRESS as string);
   const instance3 = KeyValue.attach(process.env.KV_ADDRESS);
 
-  const adminAddress = '0x85F5c799e1edEe7Fc042638D5c00da3a5cC8c7a4';
+  const adminAddress = '0x08276a0f3CbaCcCD1DA1D6e3B7B0d0B3eB8242B9';
 
   // @ts-ignore
   console.log(await instance1.name())
